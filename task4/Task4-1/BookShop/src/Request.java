@@ -3,7 +3,7 @@
  */
 
 /**
- * @author alexander
+ * @author Alexander
  *
  */
 public class Request {
@@ -12,18 +12,29 @@ public class Request {
 
 	public Request(Book book) {
 		this.book = book;
-		//this.countRequests = this.calculateCountRequests();
+		this.countRequests = this.calculateCountRequests();
 	}
 
-	/*public int calculateCountRequests() {
-		
+	public int calculateCountRequests() {
+		OrderStore orderStore = new OrderStore();
+		Order[] orders = orderStore.getAllOrders();
+		int countRequests = 0;
+		for (int i = 0; i < orders.length; i++) {
+			for (OrderItem orderItem : orders[i].getItems()) {
+				if (orderItem.getBook().getId() == this.book.getId()) {
+					countRequests++;
+				}
+			}
+		}
+
+		return countRequests;
 	}
 
 	public Book getBook() {
-		
+		return this.book;
 	}
 	
 	public int getCountRequests() {
-		
-	}*/
+		return this.countRequests;
+	}
 }

@@ -49,19 +49,38 @@ public class BookService {
 		return this.bookStore.getBook(idBook);
 	}
 
-	public void addBookToStock(Book book) {
-		
+	public void addBookToStock(Book book, int countExemplars) {
+		book.setCountExemplars(countExemplars);
+		bookStore.updateBook(book);
 	}
 
 	public void deleteBookFromStock(Book book) {
-		
+		bookStore.deleteBook(book);
 	}
 
-	/*public ArrayList<Request> getBooksRequests(orderby: int) {
-		
+	public ArrayList<Request> getBooksRequests(int orderby) {
+		Book[] books = this.bookStore.getAllBooks();
+		ArrayList<Request> requests = new ArrayList<Request>();
+		for (Book book : books) {
+			requests.add(new Request(book));
+		}
+
+		ArrayList<Request> sortedRequests = requests;
+
+		switch (orderby) {
+			case ORDERBY_COUNT_REQUESTS:
+				Collections.sort(sortedRequests, new RequestSortByCountRequestsComparator());
+				break;
+			case ORDERBY_ALPHABET:
+				Collections.sort(sortedRequests, new RequestSortByAlphabetComparator());
+				break;
+			default:
+				break;
+		}
+		return sortedRequests;
 	}
 
-	public ArrayList<Book> getOldBooks(orderby: int) {
+	/*public ArrayList<Book> getOldBooks(orderby: int) {
 		
 	}*/
 }

@@ -111,15 +111,27 @@ public class Main {
 		orderTmp = orderStore.getOrder(4);
 		orderStore.deleteOrder(orderTmp);
 
-		/* COMPARATORS DEMONSTRATION */
+		/* BOOK OPERATIONS */
+		System.out.println("Sorted books list");
+		
 		ArrayList<Book> sortedBooks = bookService.getAllBooks(bookService.ORDERBY_COST);
 		for(Book book: sortedBooks) {
-			System.out.println(book.getCost());
+			System.out.println("Title: " + book.getTitle() + ". Cost: " + book.getCost());
 		}
-
+		System.out.println("---------------------------------------------------------");
 		sortedBooks = bookService.getAllBooks(bookService.ORDERBY_ALPHABET);
 		for(Book book: sortedBooks) {
-			System.out.println(book.getTitle());
+			System.out.println("Title: " + book.getTitle() + ". Author: " + book.getAuthor());
 		}
+
+		System.out.println("---------------------------------------------------------");
+		System.out.println("Sorted book requests");
+		
+		ArrayList<Request> sortedRequests = bookService.getBooksRequests(bookService.ORDERBY_COUNT_EXEMPLARS);
+		for(Request request: sortedRequests) {
+			System.out.println("Title: " + request.getBook().getTitle() + ". Count requests: " + request.getCountRequests());
+		}
+		
+
 	}
 }
