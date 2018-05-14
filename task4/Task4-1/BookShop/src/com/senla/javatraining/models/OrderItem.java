@@ -1,7 +1,7 @@
 /**
  * One book item in order
  */
-package com.senla.javatraining;
+package com.senla.javatraining.models;
 
 /**
  * @author Alexander

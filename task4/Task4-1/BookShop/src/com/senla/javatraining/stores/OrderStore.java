@@ -1,5 +1,7 @@
-package com.senla.javatraining;
+package com.senla.javatraining.stores;
 
+import com.senla.javatraining.models.Order;
+import com.senla.javatraining.models.OrderItem;
 import com.senla.training.*;
 import java.util.Arrays;
 import java.util.ArrayList;

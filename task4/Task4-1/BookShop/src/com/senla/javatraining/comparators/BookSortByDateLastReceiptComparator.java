@@ -1,7 +1,8 @@
 package com.senla.javatraining.comparators;
 
-import com.senla.javatraining.Book;
 import java.util.Comparator;
+
+import com.senla.javatraining.models.Book;
 
 public class BookSortByDateLastReceiptComparator implements Comparator<Book> {
 	

@@ -1,4 +1,4 @@
-package com.senla.javatraining;
+package com.senla.javatraining.models;
 
 import java.util.ArrayList;
 import java.util.Date;

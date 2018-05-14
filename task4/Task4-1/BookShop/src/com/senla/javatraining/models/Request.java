@@ -1,7 +1,9 @@
 /**
  * Add count requests for book. Based on order
  */
-package com.senla.javatraining;
+package com.senla.javatraining.models;
+
+import com.senla.javatraining.stores.OrderStore;
 
 /**
  * @author Alexander

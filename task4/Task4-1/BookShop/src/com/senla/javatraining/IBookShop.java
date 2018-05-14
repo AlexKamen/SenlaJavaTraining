@@ -3,6 +3,8 @@ package com.senla.javatraining;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.senla.javatraining.models.*;
+
 public interface IBookShop {
 	public void addBook(Book book);
 	

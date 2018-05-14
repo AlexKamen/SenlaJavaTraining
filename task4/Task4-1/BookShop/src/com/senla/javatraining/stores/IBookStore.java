@@ -1,4 +1,6 @@
-package com.senla.javatraining;
+package com.senla.javatraining.stores;
+
+import com.senla.javatraining.models.Book;
 
 public interface IBookStore {
 	public void addBook(Book book);

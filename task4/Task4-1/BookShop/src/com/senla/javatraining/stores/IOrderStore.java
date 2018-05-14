@@ -1,4 +1,6 @@
-package com.senla.javatraining;
+package com.senla.javatraining.stores;
+
+import com.senla.javatraining.models.Order;
 
 public interface IOrderStore {
 	public void addOrder(Order order);

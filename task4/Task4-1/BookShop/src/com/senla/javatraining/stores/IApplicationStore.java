@@ -1,4 +1,6 @@
-package com.senla.javatraining;
+package com.senla.javatraining.stores;
+
+import com.senla.javatraining.models.Application;
 
 public interface IApplicationStore {
 	public void addApplication(Application application);

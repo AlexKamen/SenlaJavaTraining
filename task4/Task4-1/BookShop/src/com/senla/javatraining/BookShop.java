@@ -1,6 +1,8 @@
 package com.senla.javatraining;
 
 import com.senla.javatraining.comparators.*;
+import com.senla.javatraining.models.*;
+import com.senla.javatraining.stores.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;

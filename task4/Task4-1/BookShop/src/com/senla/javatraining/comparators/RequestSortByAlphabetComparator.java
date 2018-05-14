@@ -1,7 +1,8 @@
 package com.senla.javatraining.comparators;
 
-import com.senla.javatraining.Request;
 import java.util.Comparator;
+
+import com.senla.javatraining.models.Request;
 
 public class RequestSortByAlphabetComparator implements Comparator<Request> {
 	

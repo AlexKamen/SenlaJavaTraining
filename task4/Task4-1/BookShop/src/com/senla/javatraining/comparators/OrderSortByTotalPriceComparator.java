@@ -1,7 +1,8 @@
 package com.senla.javatraining.comparators;
 
-import com.senla.javatraining.Order;
 import java.util.Comparator;
+
+import com.senla.javatraining.models.Order;
 
 public class OrderSortByTotalPriceComparator implements Comparator<Order> {
 	

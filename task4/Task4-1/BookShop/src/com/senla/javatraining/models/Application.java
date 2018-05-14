@@ -1,7 +1,7 @@
 /**
  * Request for books for feeling the stock
  */
-package com.senla.javatraining;
+package com.senla.javatraining.models;
 
 import java.util.Date;
 

@@ -1,5 +1,6 @@
-package com.senla.javatraining;
+package com.senla.javatraining.stores;
 
+import com.senla.javatraining.models.Book;
 import com.senla.training.*;
 import java.util.Arrays;
 import java.util.ArrayList;
