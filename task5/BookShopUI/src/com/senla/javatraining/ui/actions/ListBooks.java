@@ -9,7 +9,6 @@ import com.senla.javatraining.models.Book;
 import java.util.ArrayList;
 
 public class ListBooks implements IAction {
-
 	private Scan scanner;
 	private IBookShop bookShop;
 	

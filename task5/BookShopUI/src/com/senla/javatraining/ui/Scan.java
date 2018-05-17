@@ -29,7 +29,12 @@ public class Scan {
 	}
 
 	public String getStringValue() {
-		return "";
+		String value;
+		System.out.println("Enter string");
+		value = this.scanner.next();
+		
+		return value;
+		
 	}
 
 	public Date getDateValue() {
