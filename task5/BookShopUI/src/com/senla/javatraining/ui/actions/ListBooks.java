@@ -30,7 +30,7 @@ public class ListBooks implements IAction {
 		ArrayList<Book> books = this.bookShop.getBooks(orderValue);
 		
 		for (Book book : books) {
-			System.out.println(book.getId() + ". " + book.getAuthor() + " " + book.getTitle());
+			System.out.println(book.getId() + ". " + book.getAuthor() + ". " + book.getTitle());
 		}
 		
 	}

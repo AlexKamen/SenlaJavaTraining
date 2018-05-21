@@ -1,7 +1,10 @@
 package com.senla.javatraining.ui.actions;
 
+import java.util.Date;
+
 import com.senla.javatraining.BookShop;
 import com.senla.javatraining.IBookShop;
+import com.senla.javatraining.models.Book;
 import com.senla.javatraining.ui.Scan;
 
 public class AddBook implements IAction {
@@ -15,16 +18,20 @@ public class AddBook implements IAction {
 
 	@Override
 	public void execute() {
-		/*System.out.println("Book author");
+		System.out.println("Book author");
 		String author = this.scanner.getStringValue();
 		
 		System.out.println("Book title");
 		String title = this.scanner.getStringValue();
 		
 		System.out.println("Book date release");
+		Date dateRelease = this.scanner.getDateValue();
 		
-		System.out.println("Book cost");*/
-
+		System.out.println("Book cost");
+		double cost = this.scanner.getDoubleValue();
+		
+		Book book = new Book(title, author, dateRelease, cost);
+		this.bookShop.addBook(book);
 	}
 
 }

@@ -32,7 +32,6 @@ public class Builder {
 		MenuItem checkOrdersCompletion = new MenuItem("Check orders completion", new CheckOrdersCompletion());
 		MenuItem checkApplicationsCompletion = new MenuItem("Check applications completion", new CheckApplicationsCompletion());
 		
-		
 		/* UniteMenuItems */
 		ArrayList<MenuItem> bookMenuItems = new ArrayList<MenuItem>();
 		bookMenuItems.addAll(Arrays.asList(listBooks, listBooksRequests, listOldBooks,

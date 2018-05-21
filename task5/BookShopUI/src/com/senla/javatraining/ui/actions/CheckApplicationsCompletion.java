@@ -1,11 +1,19 @@
 package com.senla.javatraining.ui.actions;
 
-public class CheckApplicationsCompletion implements IAction {
+import com.senla.javatraining.BookShop;
+import com.senla.javatraining.IBookShop;
 
+public class CheckApplicationsCompletion implements IAction {
+	private IBookShop bookShop;
+	
+	public CheckApplicationsCompletion() {
+		this.bookShop = new BookShop();
+	}
+	
 	@Override
 	public void execute() {
-		// TODO Auto-generated method stub
-
+		this.bookShop.checkApplicationsCompletion();
+		System.out.println("Applications completion checked");
 	}
 
 }
