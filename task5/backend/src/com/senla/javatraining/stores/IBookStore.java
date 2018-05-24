@@ -1,5 +1,7 @@
 package com.senla.javatraining.stores;
 
+import java.util.ArrayList;
+
 import com.senla.javatraining.models.Book;
 
 public interface IBookStore {
@@ -9,8 +11,12 @@ public interface IBookStore {
 	
 	public void deleteBook(Book book);
 	
-	public Book[] getAllBooks();
+	public ArrayList<Book> getAllBooks();
 	
 	public Book getBook(int id);
+
+	public Book[] readFromFile();
+	
+	public void writeToFile(Book[] books);
 	
 }

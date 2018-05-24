@@ -1,0 +1,35 @@
+21:14:20,236  WARN main Scan:getIntValue:40 - User entered incorrect value
+21:14:21,351  WARN main Scan:getIntValue:40 - User entered incorrect value
+21:14:22,409  WARN main Scan:getIntValue:40 - User entered incorrect value
+21:14:29,516 ERROR main BookDescription:execute:46 - User entered incorrect book number
+java.lang.NullPointerException
+	at com.senla.javatraining.ui.actions.BookDescription.execute(BookDescription.java:40)
+	at com.senla.javatraining.ui.Navigator.navigate(Navigator.java:49)
+	at com.senla.javatraining.ui.MenuController.run(MenuController.java:35)
+	at com.senla.javatraining.ui.Main.main(Main.java:7)
+21:14:48,409 ERROR main AddBookToStock:execute:41 - User entered incorrect book number
+java.lang.NullPointerException
+	at com.senla.javatraining.BookShop.addBookToStock(BookShop.java:129)
+	at com.senla.javatraining.ui.actions.AddBookToStock.execute(AddBookToStock.java:38)
+	at com.senla.javatraining.ui.Navigator.navigate(Navigator.java:49)
+	at com.senla.javatraining.ui.MenuController.run(MenuController.java:35)
+	at com.senla.javatraining.ui.Main.main(Main.java:7)
+21:14:56,043 ERROR main CancelOrder:execute:43 - User entered incorrect order number
+java.lang.NullPointerException
+	at com.senla.javatraining.BookShop.cancelTheOrder(BookShop.java:278)
+	at com.senla.javatraining.ui.actions.CancelOrder.execute(CancelOrder.java:40)
+	at com.senla.javatraining.ui.Navigator.navigate(Navigator.java:49)
+	at com.senla.javatraining.ui.MenuController.run(MenuController.java:35)
+	at com.senla.javatraining.ui.Main.main(Main.java:7)
+21:15:08,540  WARN main Scan:getDateValue:72 - User entered incorrect value
+21:15:09,708  WARN main Scan:getDateValue:72 - User entered incorrect value
+21:15:10,306  WARN main Scan:getDateValue:72 - User entered incorrect value
+21:15:11,091  WARN main Scan:getDateValue:72 - User entered incorrect value
+21:15:11,293  WARN main Scan:getDateValue:72 - User entered incorrect value
+21:15:11,455  WARN main Scan:getDateValue:72 - User entered incorrect value
+21:15:11,619  WARN main Scan:getDateValue:72 - User entered incorrect value
+21:15:11,760  WARN main Scan:getDateValue:72 - User entered incorrect value
+21:15:11,917  WARN main Scan:getDateValue:72 - User entered incorrect value
+21:15:21,321  WARN main Scan:getIntValue:40 - User entered incorrect value
+21:15:22,099  WARN main Scan:getIntValue:40 - User entered incorrect value
+21:15:22,829  WARN main Scan:getIntValue:40 - User entered incorrect value

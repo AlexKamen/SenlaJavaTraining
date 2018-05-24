@@ -14,8 +14,8 @@ public class ListOrders implements IAction {
 	private IBookShop bookShop;
 	
 	public ListOrders() {
-		this.scanner = new Scan();
-		this.bookShop = new BookShop();
+		this.scanner = Scan.getInstance();
+		this.bookShop = BookShop.getInstance();
 	}
 	
 	@Override

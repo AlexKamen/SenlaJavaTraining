@@ -1,7 +1,7 @@
 package com.senla.javatraining.ui;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import com.senla.javatraining.BookShop;
+import com.senla.javatraining.IBookShop;
 
 public class MenuController {
 	private static MenuController instance;
@@ -29,9 +29,13 @@ public class MenuController {
 		this.navigator.setRootMenu(this.builder.getRootMenu());
 		this.navigator.setCurrentMenu(this.builder.getRootMenu());
 		this.navigator.printMenu();
+		IBookShop bookShop = BookShop.getInstance();
 		while (true) {
 			int index = this.scanner.getIntValue();
 			if (!this.navigator.navigate(index)) {
+				
+				/* Save work results on exit */
+				bookShop.saveResultsToFile();
 				break;
 			}
 		}

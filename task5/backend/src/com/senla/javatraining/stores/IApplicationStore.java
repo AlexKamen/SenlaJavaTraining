@@ -1,5 +1,7 @@
 package com.senla.javatraining.stores;
 
+import java.util.ArrayList;
+
 import com.senla.javatraining.models.Application;
 
 public interface IApplicationStore {
@@ -9,7 +11,11 @@ public interface IApplicationStore {
 
 	public void deleteApplication(Application application);
 	
-	public Application[] getAllApplications();
+	public ArrayList<Application> getAllApplications();
 
 	public Application getApplication(int id);
+
+	public Application[] readFromFile();
+	
+	public void writeToFile(Application[] applications);
 }

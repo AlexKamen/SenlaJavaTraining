@@ -1,6 +1,9 @@
 package com.senla.javatraining.ui;
 
+import org.apache.log4j.Logger;
+
 public class Navigator {
+	public static final Logger logger = Logger.getLogger(Navigator.class.getName());
 	private Menu rootMenu;
 	private Menu currentMenu;
 	
@@ -46,8 +49,9 @@ public class Navigator {
 					menuItems[index-1].getAction().execute();
 					this.printMenu();
 				}
-			} catch(ArrayIndexOutOfBoundsException e) {
+			} catch(IndexOutOfBoundsException e) {
 				System.out.println("Wrong value! Please, retry!");
+				logger.error("User entered incorrect menu item number", e);
 				this.printMenu();
 			}
 		}

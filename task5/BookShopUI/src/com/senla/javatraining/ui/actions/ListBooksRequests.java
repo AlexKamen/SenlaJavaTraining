@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import com.senla.javatraining.BookShop;
 import com.senla.javatraining.IBookShop;
 import com.senla.javatraining.models.Request;
-import com.senla.javatraining.models.Book;
 import com.senla.javatraining.ui.Scan;
 
 public class ListBooksRequests implements IAction {
@@ -13,8 +12,8 @@ public class ListBooksRequests implements IAction {
 	private IBookShop bookShop;
 	
 	public ListBooksRequests() {
-		this.scanner = new Scan();
-		this.bookShop = new BookShop();
+		this.scanner = Scan.getInstance();
+		this.bookShop = BookShop.getInstance();
 	}
 	
 	@Override

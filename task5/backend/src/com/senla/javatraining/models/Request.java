@@ -3,6 +3,8 @@
  */
 package com.senla.javatraining.models;
 
+import java.util.ArrayList;
+
 import com.senla.javatraining.stores.OrderStore;
 
 /**
@@ -20,10 +22,10 @@ public class Request {
 
 	public int calculateCountRequests() {
 		OrderStore orderStore = new OrderStore();
-		Order[] orders = orderStore.getAllOrders();
+		ArrayList<Order> orders = orderStore.getAllOrders();
 		int countRequests = 0;
-		for (int i = 0; i < orders.length; i++) {
-			for (OrderItem orderItem : orders[i].getItems()) {
+		for (int i = 0; i < orders.size(); i++) {
+			for (OrderItem orderItem : orders.get(i).getItems()) {
 				if (orderItem.getBook().getId() == this.book.getId()) {
 					countRequests++;
 				}

@@ -57,4 +57,6 @@ public interface IBookShop {
 	public void checkOrdersCompletion();
 	
 	public void checkApplicationsCompletion();
+
+	public void saveResultsToFile();
 }

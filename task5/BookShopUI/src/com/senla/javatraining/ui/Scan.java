@@ -6,12 +6,26 @@ import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import org.apache.log4j.Logger;
+
 public class Scan {
+	public static final Logger logger = Logger.getLogger(Scan.class.getName());
+	
+	private static Scan instance;
+	
 	private Scanner scanner;
 
 	public Scan() {
 		this.scanner = new Scanner(System.in);
 	}
+	
+	public static Scan getInstance() {
+    	if (instance == null) {
+            instance = new Scan();
+        }
+     
+        return instance;
+    }
 
 	public int getIntValue() {
 		int value;
@@ -22,8 +36,9 @@ public class Scan {
 				this.scanner.nextLine();
 				break;
 			} catch(InputMismatchException  e) {
-				this.scanner.nextLine();
 				System.out.println("You entered an incorrect value! Please, retry.");
+				logger.warn("User entered incorrect value");
+				this.scanner.nextLine();
 				continue;
 			}
 		}
@@ -54,6 +69,7 @@ public class Scan {
 				break;
 			} catch(ParseException  e) {
 				System.out.println("Wrong date format! Please, retry.");
+				logger.warn("User entered incorrect value");
 				this.scanner = new Scanner(System.in);
 				continue;
 			}
@@ -71,8 +87,9 @@ public class Scan {
 				this.scanner.nextLine();
 				break;
 			} catch(InputMismatchException  e) {
-				this.scanner.nextLine();
 				System.out.println("You entered an incorrect value! Please, retry.");
+				logger.warn("User entered incorrect value");
+				this.scanner.nextLine();
 				continue;
 			}
 		}

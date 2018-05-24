@@ -2,18 +2,22 @@ package com.senla.javatraining.ui.actions;
 
 import java.util.ArrayList;
 
+import org.apache.log4j.Logger;
+
 import com.senla.javatraining.BookShop;
 import com.senla.javatraining.IBookShop;
 import com.senla.javatraining.models.Book;
 import com.senla.javatraining.ui.Scan;
 
 public class AddBookToStock implements IAction {
+	public static final Logger logger = Logger.getLogger(AddBookToStock.class.getName());
+	
 	private Scan scanner;
 	private IBookShop bookShop;
 	
 	public AddBookToStock() {
-		this.scanner = new Scan();
-		this.bookShop = new BookShop();
+		this.scanner = Scan.getInstance();
+		this.bookShop = BookShop.getInstance();
 	}
 	
 	@Override
@@ -30,8 +34,12 @@ public class AddBookToStock implements IAction {
 
 		System.out.println("Enter count exemplars");
 		int countExemplars = this.scanner.getIntValue();
-		
-		this.bookShop.addBookToStock(book, countExemplars);
+		try {
+			this.bookShop.addBookToStock(book, countExemplars);
+		} catch(NullPointerException e) {
+			System.out.println("Book not found");
+			logger.error("User entered incorrect book number", e);
+		}
 	}
 
 }

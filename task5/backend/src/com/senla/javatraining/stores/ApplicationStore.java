@@ -5,7 +5,6 @@ import com.senla.training.*;
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Data storage operations
@@ -14,8 +13,9 @@ import java.util.List;
  */
 public class ApplicationStore implements IApplicationStore {
 	private static final String APPLICATION_FILE = "applications.txt";
+	private static ApplicationStore instance;
 	
-	private Application[] applications;
+	private ArrayList<Application> applications;
 	
 	/* Last generated id */
 	private int lastInsertedId;
@@ -23,7 +23,16 @@ public class ApplicationStore implements IApplicationStore {
 	
 	public ApplicationStore() {
 		this.fileWorker = new TextFileWorker(APPLICATION_FILE);
+		this.applications = new ArrayList<Application>(Arrays.asList(this.readFromFile()));
 	}
+
+	public static ApplicationStore getInstance() {
+    	if (instance == null) {
+            instance = new ApplicationStore();
+        }
+     
+        return instance;
+    }
 	
 	@Override
 	public void addApplication(Application application) {
@@ -32,55 +41,43 @@ public class ApplicationStore implements IApplicationStore {
 		application.setId(this.generateId());
 		application.setDateCreation(new Date());
 		
-		/* Some manipulations for add new book to existance */
-		Application[] applications = this.getAllApplications();
-		ArrayList<Application> result = new ArrayList<Application>();
-		if (!(applications == null || applications.length == 0)) {
-			result = new ArrayList(Arrays.asList(applications));
-		}
+		ArrayList<Application> applications = this.getAllApplications();
 
-		result.add(application);
-		this.writeToFile(result.toArray(new Application[result.size()]));
+		applications.add(application);
 
 	}
 
 	@Override
 	public void updateApplication(Application application) {
-		Application[] applications = this.getAllApplications();
-		for (int i = 0; i < applications.length; i++) {
-			if (applications[i].getId() == application.getId()) {
-				applications[i] = application;
+		ArrayList<Application> applications = this.getAllApplications();
+		for (int i = 0; i < applications.size(); i++) {
+			if (applications.get(i).getId() == application.getId()) {
+				applications.set(i, application);
 			}
 		}
-
-		this.writeToFile(applications);
 	}
 
 	@Override
 	public void deleteApplication(Application application) {
-		Application[] applications = this.getAllApplications();
-		ArrayList<Application> result = new ArrayList<Application>(Arrays.asList(applications));
-		for (int i = 0; i < applications.length; i++) {
-			if (applications[i].getId() == application.getId()) {
-				result.remove(i);
+		ArrayList<Application> applications = this.getAllApplications();
+		for (int i = 0; i < applications.size(); i++) {
+			if (applications.get(i).getId() == application.getId()) {
+				applications.remove(i);
 			}
 		}
-
-		this.writeToFile(result.toArray(new Application[result.size()]));
 	}
 
 	@Override
-	public Application[] getAllApplications() {
-		Application[] applications = this.readFromFile();
-		return applications;
+	public ArrayList<Application> getAllApplications() {
+		return this.applications;
 	}
 
 	@Override
 	public Application getApplication(int id) {
-		Application[] applications = this.getAllApplications();
-		for (int i = 0; i < applications.length; i++) {
-			if (applications[i].getId() == id) {
-				return applications[i];
+		ArrayList<Application> applications = this.getAllApplications();
+		for (int i = 0; i < applications.size(); i++) {
+			if (applications.get(i).getId() == id) {
+				return applications.get(i);
 			}
 		}
 
@@ -97,15 +94,15 @@ public class ApplicationStore implements IApplicationStore {
 			return this.lastInsertedId;
 		}
 		else {
-			Application[] applications = this.getAllApplications();
-			if (applications == null || applications.length == 0) {
+			ArrayList<Application> applications = this.getAllApplications();
+			if (applications == null || applications.size() == 0) {
 				return 0;
 			} else {
 				int maxId = 0;
 				
-				for (int i = 0; i < applications.length; i++) {
-					if (applications[i].getId() > maxId) {
-						maxId = applications[i].getId();
+				for (int i = 0; i < applications.size(); i++) {
+					if (applications.get(i).getId() > maxId) {
+						maxId = applications.get(i).getId();
 					}
 				}
 				return maxId;
@@ -114,7 +111,7 @@ public class ApplicationStore implements IApplicationStore {
 		
 	}
 
-	private Application[] readFromFile() {
+	public Application[] readFromFile() {
 		final String[] lines = fileWorker.readFromFile();
 		
 		if (lines == null || lines.length == 0) {
@@ -130,7 +127,7 @@ public class ApplicationStore implements IApplicationStore {
 		return result;
 	}
 
-	private void writeToFile(final Application[] values) {
+	public void writeToFile(final Application[] values) {
 		if (values == null || values.length == 0) {
 			throw new IllegalArgumentException();
 		}

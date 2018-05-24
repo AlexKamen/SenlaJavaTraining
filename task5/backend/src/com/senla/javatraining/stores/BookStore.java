@@ -5,7 +5,6 @@ import com.senla.training.*;
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Data storage operations
@@ -14,8 +13,9 @@ import java.util.List;
  */
 public class BookStore implements IBookStore{
 	private static final String BOOK_FILE = "books.txt";
+	private static BookStore instance;
 	
-	private Book[] books;
+	private ArrayList<Book> books;
 	
 	/* Last generated id */
 	private int lastInsertedId;
@@ -23,7 +23,16 @@ public class BookStore implements IBookStore{
 
 	public BookStore() {
 		this.fileWorker = new TextFileWorker(BOOK_FILE);
+		this.books = new ArrayList<Book>(Arrays.asList(this.readFromFile()));
 	}
+
+	public static BookStore getInstance() {
+    	if (instance == null) {
+            instance = new BookStore();
+        }
+     
+        return instance;
+    }
 
 	public void addBook(Book book) {
 		
@@ -31,51 +40,39 @@ public class BookStore implements IBookStore{
 		book.setId(this.generateId());
 		book.setCountExemplars(0);
 		book.setDateLastReceipt(new Date());
-		
-		/* Some manipulations for add new book to existance */
-		Book[] books = this.getAllBooks();
-		ArrayList<Book> result = new ArrayList<Book>();
-		if (!(books == null || books.length == 0)) {
-			result = new ArrayList(Arrays.asList(books));
-		}
 
-		result.add(book);
-		this.writeToFile(result.toArray(new Book[result.size()]));
+		ArrayList<Book> books = this.getAllBooks();
+
+		books.add(book);
 	}
 
 	public void updateBook(Book book) {
-		Book[] books = this.getAllBooks();
-		for (int i = 0; i < books.length; i++) {
-			if (books[i].getId() == book.getId()) {
-				books[i] = book;
+		ArrayList<Book> books = this.getAllBooks();
+		for (int i = 0; i < books.size(); i++) {
+			if (books.get(i).getId() == book.getId()) {
+				books.set(i, book);
 			}
 		}
-
-		this.writeToFile(books);
 	}
 
 	public void deleteBook(Book book) {
-		Book[] books = this.getAllBooks();
-		ArrayList<Book> result = new ArrayList<Book>(Arrays.asList(books));
-		for (int i = 0; i < books.length; i++) {
-			if (books[i].getId() == book.getId()) {
-				result.remove(i);
+		ArrayList<Book> books = this.getAllBooks();
+		for (int i = 0; i < books.size(); i++) {
+			if (books.get(i).getId() == book.getId()) {
+				books.remove(i);
 			}
 		}
-
-		this.writeToFile(result.toArray(new Book[result.size()]));
 	}
 
-	public Book[] getAllBooks() {
-		Book[] books = this.readFromFile();
-		return books;
+	public ArrayList<Book> getAllBooks() {
+		return this.books;
 	}
 
 	public Book getBook(int id) {
-		Book[] books = this.getAllBooks();
-		for (int i = 0; i < books.length; i++) {
-			if (books[i].getId() == id) {
-				return books[i];
+		ArrayList<Book> books = this.getAllBooks();
+		for (int i = 0; i < books.size(); i++) {
+			if (books.get(i).getId() == id) {
+				return books.get(i);
 			}
 		}
 
@@ -92,15 +89,15 @@ public class BookStore implements IBookStore{
 			return this.lastInsertedId;
 		}
 		else {
-			Book[] books = this.getAllBooks();
-			if (books == null || books.length == 0) {
+			ArrayList<Book> books = this.getAllBooks();
+			if (books == null || books.size() == 0) {
 				return 0;
 			} else {
 				int maxId = 0;
 				
-				for (int i = 0; i < books.length; i++) {
-					if (books[i].getId() > maxId) {
-						maxId = books[i].getId();
+				for (int i = 0; i < books.size(); i++) {
+					if (books.get(i).getId() > maxId) {
+						maxId = books.get(i).getId();
 					}
 				}
 				return maxId;
@@ -109,7 +106,7 @@ public class BookStore implements IBookStore{
 		
 	}
 	
-	private Book[] readFromFile() {
+	public Book[] readFromFile() {
 		final String[] lines = fileWorker.readFromFile();
 		
 		if (lines == null || lines.length == 0) {
@@ -125,7 +122,7 @@ public class BookStore implements IBookStore{
 		return result;
 	}
 
-	private void writeToFile(final Book[] values) {
+	public void writeToFile(final Book[] values) {
 		if (values == null || values.length == 0) {
 			throw new IllegalArgumentException();
 		}

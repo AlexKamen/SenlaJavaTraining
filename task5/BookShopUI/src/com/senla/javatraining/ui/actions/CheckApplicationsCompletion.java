@@ -7,7 +7,7 @@ public class CheckApplicationsCompletion implements IAction {
 	private IBookShop bookShop;
 	
 	public CheckApplicationsCompletion() {
-		this.bookShop = new BookShop();
+		this.bookShop = BookShop.getInstance();
 	}
 	
 	@Override

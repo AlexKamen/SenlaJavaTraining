@@ -5,7 +5,6 @@ import com.senla.javatraining.models.*;
 import com.senla.javatraining.stores.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
@@ -23,6 +22,8 @@ public class BookShop implements IBookShop {
 	public static final int ORDERBY_TOTAL_PRICE = 9;
 	public static final int ORDERBY_STATUS = 10;
 	
+	private static BookShop instance;
+	
 	/** Additional number of exemplars in the application */
 	public static final int ADDITIONAL_EXEMPLARS = 5;
 	
@@ -38,6 +39,14 @@ public class BookShop implements IBookShop {
 		this.orderStore = new OrderStore();
 		this.applicationStore = new ApplicationStore();
 	}
+	
+	public static BookShop getInstance() {
+    	if (instance == null) {
+            instance = new BookShop();
+        }
+     
+        return instance;
+    }
 
 	@Override
 	public void addBook(Book book) {
@@ -56,8 +65,8 @@ public class BookShop implements IBookShop {
 
 	@Override
 	public ArrayList<Book> getBooks(int orderby) {
-		ArrayList<Book> books = new ArrayList<Book>(Arrays.asList(bookStore.getAllBooks()));
-		ArrayList<Book> sortedBooks = books;
+		ArrayList<Book> books = bookStore.getAllBooks();
+		ArrayList<Book> sortedBooks = (ArrayList<Book>) books.clone();
 		switch(orderby) {
 			case ORDERBY_ALPHABET:
 				Collections.sort(sortedBooks, new BookSortByAlphabetComparator());
@@ -101,7 +110,7 @@ public class BookShop implements IBookShop {
 			}
 		}
 		
-		ArrayList<Book> sortedOldBooks = oldBooks;
+		ArrayList<Book> sortedOldBooks = (ArrayList<Book>) oldBooks.clone();
 		switch(orderby) {
 			case ORDERBY_DATE_LAST_RECEIPT:
 				Collections.sort(sortedOldBooks, new BookSortByDateLastReceiptComparator());
@@ -129,13 +138,13 @@ public class BookShop implements IBookShop {
 
 	@Override
 	public ArrayList<Request> getBooksRequests(int orderby) {
-		Book[] books = this.bookStore.getAllBooks();
+		ArrayList<Book> books = this.bookStore.getAllBooks();
 		ArrayList<Request> requests = new ArrayList<Request>();
 		for (Book book : books) {
 			requests.add(new Request(book));
 		}
 
-		ArrayList<Request> sortedRequests = requests;
+		ArrayList<Request> sortedRequests = (ArrayList<Request>) requests.clone();
 
 		switch (orderby) {
 			case ORDERBY_COUNT_REQUESTS:
@@ -209,7 +218,7 @@ public class BookShop implements IBookShop {
 	public ArrayList<Order> getOrders(Date dateStart, Date dateEnd, int orderby,
 			boolean completeOnly) {
 		
-		Order[] allOrders = this.orderStore.getAllOrders();
+		ArrayList<Order> allOrders = this.orderStore.getAllOrders();
 		ArrayList<Order> neededOrders = new ArrayList<Order>();
 		
 		/* Get orders selection by date */
@@ -304,18 +313,12 @@ public class BookShop implements IBookShop {
 	}
 	
 	@Override
-	public ArrayList<Application> getApplications(boolean actualOnly) {
+	public ArrayList<Application> getApplications(boolean actualOnly) {		
+		ArrayList<Application> applications = this.applicationStore.getAllApplications();
 		
-		/* Check for applications which would be marked as completed
-		 * at the time of the current method called */
-		this.checkApplicationsCompletion();
-		
-		Application[] applications = this.applicationStore.getAllApplications();
-		
-		ArrayList<Application> neededApplications = new ArrayList<Application>(); 
-		for (int i = 0; i < applications.length; i++) {
-			neededApplications.add(applications[i]);
-			if (actualOnly == true) {
+		ArrayList<Application> neededApplications = applications; 
+		for (int i = 0; i < applications.size(); i++) {
+			if ((actualOnly == true) && (applications.get(i).getStatus() == Application.STATUS_COMPLETE)) {
 				neededApplications.remove(i);
 			}
 		}
@@ -325,11 +328,6 @@ public class BookShop implements IBookShop {
 
 	@Override
 	public Application getApplication(int id) {
-		
-		/* Check for applications which would be marked as completed
-		 * at the time of the current method called */
-		this.checkApplicationsCompletion();
-		
 		this.applicationStore.getApplication(id);
 		return null;
 	}
@@ -361,4 +359,17 @@ public class BookShop implements IBookShop {
 			}
 		}
 	}
+
+	@Override
+	public void saveResultsToFile() {
+		Book[] books = this.bookStore.getAllBooks().toArray(new Book[this.bookStore.getAllBooks().size()]);
+		this.bookStore.writeToFile(books);
+		
+		Order[] orders = this.orderStore.getAllOrders().toArray(new Order[this.orderStore.getAllOrders().size()]);
+		this.orderStore.writeToFile(orders);
+		
+		Application[] applications = this.applicationStore.getAllApplications().toArray(new Application[this.applicationStore.getAllApplications().size()]);
+		this.applicationStore.writeToFile(applications);
+	}
+
 }

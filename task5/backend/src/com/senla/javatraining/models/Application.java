@@ -47,7 +47,7 @@ public class Application {
 	}
 
 	public void setId(int id) {
-		this.idApplication = idApplication;
+		this.idApplication = id;
 	}
 	
 	public int getId() {

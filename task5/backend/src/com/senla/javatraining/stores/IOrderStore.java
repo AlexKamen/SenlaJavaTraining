@@ -1,5 +1,7 @@
 package com.senla.javatraining.stores;
 
+import java.util.ArrayList;
+
 import com.senla.javatraining.models.Order;
 
 public interface IOrderStore {
@@ -9,7 +11,11 @@ public interface IOrderStore {
 
 	public void deleteOrder(Order order);
 
-	public Order[] getAllOrders();
+	public ArrayList<Order> getAllOrders();
 
 	public Order getOrder(int id);
+
+	public Order[] readFromFile();
+	
+	public void writeToFile(Order[] orders);
 }

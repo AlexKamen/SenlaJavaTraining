@@ -12,8 +12,8 @@ public class ListOldBooks implements IAction {
 	private IBookShop bookShop;
 	
 	public ListOldBooks() {
-		this.scanner = new Scan();
-		this.bookShop = new BookShop();
+		this.scanner = Scan.getInstance();
+		this.bookShop = BookShop.getInstance();
 	}
 	
 	@Override

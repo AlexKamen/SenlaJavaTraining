@@ -6,7 +6,6 @@ import com.senla.training.*;
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Data storage operations
@@ -15,8 +14,9 @@ import java.util.List;
  */
 public class OrderStore implements IOrderStore{
 	private static final String ORDER_FILE = "orders.txt";
+	private static OrderStore instance;
 	
-	private Order[] orders;
+	private ArrayList<Order> orders;
 	
 	/* Last generated id */
 	private int lastInsertedId;
@@ -24,59 +24,56 @@ public class OrderStore implements IOrderStore{
 
 	public OrderStore() {
 		this.fileWorker = new TextFileWorker(ORDER_FILE);
+		this.orders = new ArrayList<Order>(Arrays.asList(this.readFromFile()));
 	}
+
+	public static OrderStore getInstance() {
+    	if (instance == null) {
+            instance = new OrderStore();
+        }
+     
+        return instance;
+    }
 
 	public void addOrder(Order order) {
 		
 		/* Fill Order object fields */
 		order.setId(this.generateId());
 		order.setDateCreation(new Date());
-		order.setStatus(order.STATUS_CREATE);
+		order.setStatus(Order.STATUS_CREATE);
 		
-		/* Some manipulations for add new order to existance */
-		Order[] orders = this.getAllOrders();
-		ArrayList<Order> result = new ArrayList<Order>();
-		if (!(orders == null || orders.length == 0)) {
-			result = new ArrayList(Arrays.asList(orders));
-		}
+		ArrayList<Order> orders = this.getAllOrders();
 		
-		result.add(order);
-		this.writeToFile(result.toArray(new Order[result.size()]));
+		orders.add(order);
 	}
 
 	public void updateOrder(Order order) {
-		Order[] orders = this.getAllOrders();
-		for (int i = 0; i < orders.length; i++) {
-			if (orders[i].getId() == order.getId()) {
-				orders[i] = order;
+		ArrayList<Order> orders = this.getAllOrders();
+		for (int i = 0; i < orders.size(); i++) {
+			if (orders.get(i).getId() == order.getId()) {
+				orders.set(i, order);
 			}
 		}
-
-		this.writeToFile(orders);
 	}
 
 	public void deleteOrder(Order order) {
-		Order[] orders = this.getAllOrders();
-		ArrayList<Order> result = new ArrayList<Order>(Arrays.asList(orders));
-		for (int i = 0; i < orders.length; i++) {
-			if (orders[i].getId() == order.getId()) {
-				result.remove(i);
+		ArrayList<Order> orders = this.getAllOrders();
+		for (int i = 0; i < orders.size(); i++) {
+			if (orders.get(i).getId() == order.getId()) {
+				orders.remove(i);
 			}
 		}
-
-		this.writeToFile(result.toArray(new Order[result.size()]));
 	}
 
-	public Order[] getAllOrders() {
-		Order[] orders = this.readFromFile();
-		return orders;
+	public ArrayList<Order> getAllOrders() {
+		return this.orders;
 	}
 
 	public Order getOrder(int id) {
-		Order[] orders = this.getAllOrders();
-		for (int i = 0; i < orders.length; i++) {
-			if (orders[i].getId() == id) {
-				return orders[i];
+		ArrayList<Order> orders = this.getAllOrders();
+		for (int i = 0; i < orders.size(); i++) {
+			if (orders.get(i).getId() == id) {
+				return orders.get(i);
 			}
 		}
 
@@ -93,15 +90,15 @@ public class OrderStore implements IOrderStore{
 			return this.lastInsertedId;
 		}
 		else {
-			Order[] orders = this.getAllOrders();
-			if (orders == null || orders.length == 0) {
+			ArrayList<Order> orders = this.getAllOrders();
+			if (orders == null || orders.size() == 0) {
 				return 0;
 			} else {
 				int maxId = 0;
 				
-				for (int i = 0; i < orders.length; i++) {
-					if (orders[i].getId() > maxId) {
-						maxId = orders[i].getId();
+				for (int i = 0; i < orders.size(); i++) {
+					if (orders.get(i).getId() > maxId) {
+						maxId = orders.get(i).getId();
 					}
 				}
 				return maxId;
@@ -109,7 +106,7 @@ public class OrderStore implements IOrderStore{
 		}
 	}
 
-	private Order[] readFromFile() {
+	public Order[] readFromFile() {
 		final String[] lines = fileWorker.readFromFile();
 		
 		if (lines == null || lines.length == 0) {
@@ -125,7 +122,7 @@ public class OrderStore implements IOrderStore{
 		return result;
 	}
 
-	private void writeToFile(final Order[] values) {
+	public void writeToFile(final Order[] values) {
 		if (values == null || values.length == 0) {
 			throw new IllegalArgumentException();
 		}

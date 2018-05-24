@@ -11,8 +11,8 @@ public class EarnedMoney implements IAction {
 	private IBookShop bookShop;
 	
 	public EarnedMoney() {
-		this.scanner = new Scan();
-		this.bookShop = new BookShop();
+		this.scanner = Scan.getInstance();
+		this.bookShop = BookShop.getInstance();
 	}
 	
 	@Override
